@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+    monika:
+        image: hyperjump/monika:latest
+        container_name: monika
+        network_mode: host
+        volumes:
+            - './monika.yml:/monika.yml'
+        command: monika -c monika.yml --prometheus 3001
+    prometheus:
+      image: prom/prometheus
+      volumes:
+          - './prometheus.yml:/prometheus.yml'
+      command: --config.file=/prometheus.yml
+      ports:
+       - "9090:9090"
+    pretendinternalservice:
+      image: nginx
+      ports:
+       - "80:80"
